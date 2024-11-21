@@ -5,7 +5,7 @@
     <!-- 左侧和顶部布局 -->
     <div class="main-container">
       <div class="fixed-header">
-        <NavBar />
+        <!-- <NavBar /> -->
         <TagsView v-show="tabs" />
       </div>
       <AppMain />
@@ -42,9 +42,6 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .sidebar-container {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
   z-index: 999;
   width: $sidebar-width;
   background-color: $menu-background;
