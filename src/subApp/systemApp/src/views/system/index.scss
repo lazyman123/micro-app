@@ -1,0 +1,74 @@
+.el-form {
+  width: 100%;
+
+  .text-center {
+    text-align: center;
+  }
+}
+
+.content-box {
+  .form-header {
+    display: flex;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .form-header::before {
+    content: "";
+    width: 2px;
+    height: 16px;
+    background-color: var(--el-color-primary);
+    font-size: 16px;
+    position: relative;
+    top: 3px;
+    right: 6px;
+  }
+
+  .sucai {
+    width: 800px;
+    flex-wrap: wrap;
+
+    .sucai-box {
+      display: flex;
+      flex-direction: column;
+      margin-right: 10px;
+
+      &:nth-child(n+5) {
+        margin-top: 20px;
+      }
+
+      .config-img {
+        width: 140px;
+        height: 170px;
+        padding-top: 10px;
+      }
+    }
+  }
+}
+
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  box-shadow: var(--el-box-shadow);
+  height: 60px;
+  line-height: 60px;
+  z-index: 99;
+  background: #fff;
+
+  .footer-box {
+    width: 400px;
+    position: fixed;
+    right: 0px;
+    margin-right: 34px;
+    text-align: right;
+
+    .right-cancel {}
+
+    .right-next {}
+
+    .right-prev {}
+  }
+
+}
