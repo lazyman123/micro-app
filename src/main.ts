@@ -21,6 +21,10 @@ const setMiro = () =>
         name: value.name,
         url: getUrl(value.name, micros),
         exec: true,
+        plugins: [
+            
+          ],
+          alive: true,
         ...lifecycles,
       });
     }

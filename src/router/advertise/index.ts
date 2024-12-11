@@ -40,6 +40,7 @@ export const advertiseRoutes: RouteRecordRaw[] = [
           alwaysShow: false,
           keepAlive: false,
           params: null,
+          isByMainApp: true,
         },
       },
       {

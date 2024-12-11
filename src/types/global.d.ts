@@ -35,6 +35,7 @@ declare global {
     /** 高亮菜单 */
     activeMenu?: string;
     useI18n?: boolean; // 是否开启 i18n，默认读取全局的 routeUseI18n（src/config/settings.ts）
+    isByMainApp?: boolean; // 是否是主应用启动
   }
  // 路由表初始化配置类型
   type RouterConfigRaw = Omit<RouteRecordRaw, "meta" | "component" | "children"> & {
