@@ -25,7 +25,8 @@
     "sortablejs": "^1.15.3",
     "vue": "^3.4.37",
     "vue-i18n": "^10.0.5",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "wujie-vue3": "^1.0.24"
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",
