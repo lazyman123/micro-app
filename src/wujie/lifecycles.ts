@@ -4,11 +4,13 @@ const lifecycles = {
       // 打开加载动画
     },
     beforeMount() {
-      // console.log('beforeMount()-----------------');
+      console.log('beforeMount()-----------------');
     },
     afterMount(appWindow: any) {
       // 自应用第一次挂载到页面上之后执行(后续会缓存,不会执行)
       // 关闭加载动画
+      console.log(111);
+      
     },
     beforeUnmount(appWindow: any) {
       // console.log('beforeUnmount()-----------------');

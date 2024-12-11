@@ -8,10 +8,14 @@ import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import UnoCSS from "unocss/vite";
 import mockDevServerPlugin from "vite-plugin-mock-dev-server";
 import vueJsx from "@vitejs/plugin-vue-jsx";
+import { createProxy } from "./build/proxy";
+import { wrapperEnv } from "./build/getEnv";
 
 const pathSrc = resolve(__dirname, "src");
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd());
+  const viteEnv = wrapperEnv(env);
+
   return {
     resolve: {
       // 别名配置
@@ -39,16 +43,17 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       port: Number(env.VITE_APP_PORT),
       // 运行是否自动打开浏览器
       open: true,
-      proxy: {
-        /** 代理前缀为 /dev-api 的请求  */
-        [env.VITE_APP_BASE_API]: {
-          changeOrigin: true,
-          // 接口地址 例如：http://vapi.youlai.tech
-          target: env.VITE_APP_API_URL,
-          rewrite: (path) =>
-            path.replace(new RegExp("^" + env.VITE_APP_BASE_API), ""),
-        },
-      },
+      proxy: createProxy(viteEnv.VITE_PROXY)
+      // proxy: {
+      //   /** 代理前缀为 /dev-api 的请求  */
+      //   [env.VITE_APP_BASE_API]: {
+      //     changeOrigin: true,
+      //     // 接口地址 例如：http://vapi.youlai.tech
+      //     target: env.VITE_APP_API_URL,
+      //     rewrite: (path) =>
+      //       path.replace(new RegExp("^" + env.VITE_APP_BASE_API), ""),
+      //   },
+      // },
     },
     plugins: [
       vue(),
@@ -108,6 +113,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
       },
       rollupOptions: {
+        input: {
+          index: resolve(__dirname, "index.html"),
+          pravicy: resolve(__dirname, "pravicy.html"),
+        },
         output: {
           // 用于从入口点创建的块的打包输出格式[name]表示文件名,[hash]表示该文件内容hash值
           entryFileNames: "js/[name].[hash].js",

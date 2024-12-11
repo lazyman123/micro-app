@@ -30,6 +30,19 @@ export const advertiseRoutes: RouteRecordRaw[] = [
         },
       },
       {
+        path: "subApp",
+        component: () => import("@/subAppList/systemSubApp/index.vue"),
+        name: "SubApp",
+        meta: {
+          title: "子应用",
+          icon: "link",
+          hidden: false,
+          alwaysShow: false,
+          keepAlive: false,
+          params: null,
+        },
+      },
+      {
         path: "goodsList/:adAccountId",
         component: () => import("@/views/advertise/goodsList.vue"),
         name: "GoodsList",
