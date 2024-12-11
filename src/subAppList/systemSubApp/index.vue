@@ -3,7 +3,7 @@
     <WujieVue
       width="100%"
       height="100%"
-      name="systemSubApp"
+      name="SystemSubApp"
       :url="serverUrl"
       :alive="false"
       :sync="true"

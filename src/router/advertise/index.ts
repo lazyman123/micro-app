@@ -32,7 +32,7 @@ export const advertiseRoutes: RouteRecordRaw[] = [
       {
         path: "subApp",
         component: () => import("@/subAppList/systemSubApp/index.vue"),
-        name: "SubApp",
+        name: "SystemSubApp",
         meta: {
           title: "子应用",
           icon: "link",

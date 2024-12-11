@@ -304,4 +304,20 @@ function padZero(num) {
   return (num < 10 ? '0' : '') + num;
 }
 
+export const micros = [
+  {
+    name: "SystemSubApp",
+    desc: "数据规则",
+    port: 3000,
+  },
+];
+
+export const getUrl = (appName: string, mciroList = micros) => {
+  const config = mciroList.find((item) => item.name === appName);
+  if (import.meta.env.MODE === "development") {
+    return `//localhost:${config?.port}/${config?.name}/`;
+  }
+  return `/${config?.name}/`;
+};
+
 export * from "./is";

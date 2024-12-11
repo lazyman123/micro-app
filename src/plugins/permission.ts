@@ -19,7 +19,7 @@ export function setupPermission() {
     if (isLogin) {
       if (to.path === "/login") {
         // 已登录，访问登录页，跳转到首页
-        next({ name: "HomePage" });
+        next({ path: "/" });
       } else {
         const permissionStore = usePermissionStore();
         // 判断路由是否加载过
