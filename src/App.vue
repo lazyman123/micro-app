@@ -1,12 +1,12 @@
 <template>
-  <el-config-provider :locale="zhCn" size="default">
+  <el-config-provider :locale="locale" size="default">
     <router-view />
   </el-config-provider>
 </template>
 
 <script setup lang="ts">
-// 导入 Element Plus 中英文语言包
-import zhCn from "element-plus/es/locale/lang/zh-cn";
+import { useAppStore } from "@/store/modules/app";
+const { locale } = useAppStore();
 </script>
 
 <style scoped></style>

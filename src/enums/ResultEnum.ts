@@ -5,7 +5,7 @@ export const enum ResultEnum {
   /**
    * 成功
    */
-  SUCCESS = "00000",
+  SUCCESS = "000000",
   /**
    * 错误
    */

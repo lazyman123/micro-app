@@ -45,6 +45,8 @@ export interface LoginData {
   username: string;
   /** 密码 */
   password: string;
+  /** 是否同意协议 */
+  isAgree: boolean;
   /** 验证码缓存key */
   captchaKey: string;
   /** 验证码 */

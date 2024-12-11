@@ -33,6 +33,8 @@
 import { computed, inject, ref } from "vue";
 import { handleProp } from "@/utils";
 import { ColumnProps } from "@/layout/components/ProTable/interface";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 interface SearchFormItem {
   column: ColumnProps;
@@ -109,7 +111,7 @@ const placeholder = computed(() => {
   }
   const placeholder =
     search?.props?.placeholder ??
-    (search?.el?.includes("input") ? "请输入" : "请选择");
+    (search?.el?.includes("input") ? t('Common.PleaseEnter') : t('Common.PleaseSelect'));
   return { placeholder };
 });
 

@@ -5,6 +5,8 @@
     <div class="nav-action-item" @click="toggle">
       <svg-icon :icon-class="isFullscreen ? 'fullscreen-exit' : 'fullscreen'" />
     </div>
+    <!-- 语言选择 -->
+    <LangSelect />
 
     <!-- 用户头像 -->
     <el-dropdown class="nav-action-item" trigger="click">
@@ -17,7 +19,7 @@
       </div>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item @click="logout"> 退出登录 </el-dropdown-item>
+          <el-dropdown-item @click="logout"> {{ t("Common.LogOut") }} </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -33,6 +35,9 @@
 <script setup lang="ts">
 import { useTagsViewStore, useUserStore, useSettingsStore } from "@/store";
 import defaultSettings from "@/settings";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const settingStore = useSettingsStore();
 const tagsViewStore = useTagsViewStore();

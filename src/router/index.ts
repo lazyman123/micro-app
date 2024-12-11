@@ -6,7 +6,7 @@ import {
 } from "vue-router";
 
 export const Layout = () => import("@/layout/index.vue");
-export const internalDoc = () => import("@/views/doc/internal-doc.vue");
+import { advertiseRoutes } from "./advertise";
 import { systemRoutes } from "./system";
 // 静态路由
 export const constantRoutes: RouteRecordRaw[] = [
@@ -31,19 +31,19 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "/",
     component: Layout,
     children: [
-      // {
-      //   path: "homepage",
-      //   component: () => import("@/views/home/index.vue"),
-      //   // 用于 keep-alive 功能，需要与 SFC 中自动推导或显式声明的组件名称一致
-      //   // 参考文档: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
-      //   name: "HomePage",
-      //   meta: {
-      //     title: "首页",
-      //     icon: "homepage",
-      //     affix: true,
-      //     keepAlive: true,
-      //   },
-      // },
+      {
+        path: "homepage",
+        component: () => import("@/views/home/index.vue"),
+        // 用于 keep-alive 功能，需要与 SFC 中自动推导或显式声明的组件名称一致
+        // 参考文档: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
+        name: "HomePage",
+        meta: {
+          title: "Home",
+          icon: "homepage",
+          affix: true,
+          keepAlive: true,
+        },
+      },
       {
         path: "404",
         component: () => import("@/views/error/404.vue"),
@@ -51,6 +51,7 @@ export const constantRoutes: RouteRecordRaw[] = [
       },
     ],
   },
+  ...advertiseRoutes,
   ...systemRoutes,
 ];
 

@@ -14,4 +14,6 @@ export * from "./modules/tagsView";
 export * from "./modules/app";
 export * from "./modules/settings";
 export * from "./modules/global";
+export * from "./modules/router";
+export * from "./modules/layout";
 export { store };

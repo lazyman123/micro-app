@@ -16,13 +16,17 @@
 </template>
 
 <script setup lang="ts">
-import { useTagsViewStore } from "@/store";
+import { useTagsViewStore, useSettingsStore } from "@/store";
 import variables from "@/styles/variables.module.scss";
 
 // 缓存页面集合
 const cachedViews = computed(() => useTagsViewStore().cachedViews);
 const height = computed(() => {
-  return `calc(100vh - ${variables["navbar-height"]} - ${variables["tags-view-height"]})`;
+  if (useSettingsStore().tabs) {
+    return `calc(100vh - ${variables["navbar-height"]} - ${variables["tags-view-height"]})`;
+  } else {
+    return `calc(100vh - ${variables["navbar-height"]})`;
+  }
 });
 </script>
 

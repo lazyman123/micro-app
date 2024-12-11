@@ -14,6 +14,7 @@ export const useSettingsStore = defineStore("setting", () => {
   const tabs = useStorage<boolean>("tabs", defaultSettings.tabs);
   const breadcrumbVisible = useStorage<boolean>("breadcrumbVisible", defaultSettings.breadcrumbVisible);
   const storeTabs = useStorage<boolean>("storeTabs", defaultSettings.storeTabs);
+  const menuWidth = useStorage<number>("menuWidth", defaultSettings.menuWidth);
 
   // 监听主题变化
   watch(
@@ -38,10 +39,11 @@ export const useSettingsStore = defineStore("setting", () => {
     settingsVisible,
     themeColor,
     theme,
-    changeTheme,
-    changeThemeColor,
     tabs,
     breadcrumbVisible,
     storeTabs,
+    menuWidth,
+    changeTheme,
+    changeThemeColor,
   };
 });

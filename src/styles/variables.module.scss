@@ -1,12 +1,14 @@
 /* stylelint-disable property-no-unknown */
 :export {
-    sidebar-width: $sidebar-width;
+    sidebar-width: --aside-width;
     navbar-height: $navbar-height;
     tags-view-height: $tags-view-height;
     menu-background: $menu-background;
     menu-text: $menu-text;
     menu-active-text: $menu-active-text;
     menu-hover: $menu-hover;
+    // 命名空间
+    namespace: $admin-namespace;
+    elNamespace: $el-namespace;
   }
   /* stylelint-enable property-no-unknown */
-  

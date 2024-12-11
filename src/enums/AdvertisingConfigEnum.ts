@@ -1,13 +1,15 @@
+import i18n from "@/languages/index";
+const { t } = i18n.global;
 /**
  * 购买类型
  */
 export const PurchaseTypeEnum = [
   {
-    label: "竞拍",
-    value: 1,
+    label: t("AdConfig.Campaign.Auction"),
+    value: "AUCTION",
   },
   {
-    label: "预定",
+    label: t("AdConfig.Campaign.Reserve"),
     value: 2,
   },
 ];
@@ -17,11 +19,11 @@ export const PurchaseTypeEnum = [
  */
 export const AdvertisingCreateEnum = [
   {
-    label: "进阶赋能型",
+    label: t("AdConfig.Advancemental"),
     value: 1,
   },
   {
-    label: "手动创建型",
+    label: t("AdConfig.Manual"),
     value: 2,
   },
 ];
@@ -31,15 +33,15 @@ export const AdvertisingCreateEnum = [
  */
 export const StrategyEnum = [
   {
-    label: "立即执行",
+    label: t("AdConfig.ExecuteImmediately"),
     value: 1,
   },
   {
-    label: "稍后手动执行",
+    label: t("AdConfig.ExecuteLater"),
     value: 2,
   },
   {
-    label: "预约执行",
+    label: t("AdConfig.ExecuteReservation"),
     value: 3,
   },
 ];
@@ -49,15 +51,15 @@ export const StrategyEnum = [
  */
 export const TaskEnum = [
   {
-    label: "待执行",
+    label: t("AdConfig.NotExecuted"),
+    value: 0,
+  },
+  {
+    label: t("AdConfig.Executing"),
     value: 1,
   },
   {
-    label: "执行中",
-    value: 2,
-  },
-  {
-    label: "已执行",
+    label: t("AdConfig.Executed"),
     value: 2,
   },
 ];
@@ -67,11 +69,11 @@ export const TaskEnum = [
  */
 export const TargetEnum = [
   {
-    label: "销量",
-    value: 1,
+    label: t("AdConfig.Campaign.Sales"),
+    value: "OUTCOME_SALES",
   },
   {
-    label: "知名度",
+    label: t("AdConfig.Campaign.Popularity"),
     value: 2,
   },
 ];
@@ -81,12 +83,12 @@ export const TargetEnum = [
  */
 export const PerformanceObjectiveEnum = [
   {
-    label: "转化量最大化",
-    value: 1,
+    label: t("AdConfig.AdGroup.Optimization"),
+    value: "MAX_COUNT",
   },
   {
-    label: "转化价值最大化",
-    value: 2,
+    label: t("AdConfig.AdGroup.OptimizationValue"),
+    value: "jiazhi",
   },
 ];
 /**
@@ -94,8 +96,8 @@ export const PerformanceObjectiveEnum = [
  */
 export const LocationOccursEnum = [
   {
-    label: "网站",
-    value: 1,
+    label: t("AdConfig.AdGroup.Website"),
+    value: "WEBSITE",
   },
 ];
 
@@ -104,8 +106,8 @@ export const LocationOccursEnum = [
  */
 export const ConvertEventEnum = [
   {
-    label: "购物",
-    value: 1,
+    label: t("AdConfig.AdGroup.Shopping"),
+    value: "PURCHASE",
   },
 ];
 
@@ -128,11 +130,11 @@ export const PixelCodeEnum = [
  */
 export const BudgetEnum = [
   {
-    label: "单日预算",
+    label: t("AdConfig.Campaign.DailyBudget"),
     value: 1,
   },
   {
-    label: "总预算",
+    label: t("AdConfig.Campaign.TotalBudget"),
     value: 2,
   },
 ];
@@ -142,8 +144,8 @@ export const BudgetEnum = [
  */
 export const ActionEnum = [
   {
-    label: "去逛逛",
-    value: 1,
+    label: t("AdConfig.Ad.GoToShop"),
+    value: "SHOP_NOW",
   },
 ];
 
@@ -153,6 +155,15 @@ export const ActionEnum = [
 export const CommonPageEnum = [
   {
     label: "lacemylife",
-    value: 1,
+    value: "105172722510116",
   },
 ];
+
+/**
+ * 任务状态
+ */
+export const TaskStatusEnum = {
+  'TODO': 0,
+  'DOING': 1,
+  'DONE': 2,
+};

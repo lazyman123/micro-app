@@ -1,3 +1,5 @@
+import { isNumber, isString } from "./is/index";
+
 // 辅助函数：将十六进制颜色转换为 RGB
 function hexToRgb(hex: string): [number, number, number] {
   const bigint = parseInt(hex.slice(1), 16);
@@ -50,3 +52,31 @@ export function toggleDarkMode(isDark: boolean) {
     document.documentElement.classList.remove("dark");
   }
 }
+
+/**
+ * 设置 css var 需要的变量
+ * @param key key
+ * @param value value
+ */
+export const setStyleVar = (key: string, value: string) => {
+  document.documentElement.style.setProperty(key, value);
+};
+
+export const getCssVar = (prop: string, dom = document.documentElement) => {
+  return getComputedStyle(dom).getPropertyValue(prop);
+};
+
+/**
+ * @description 补 px 单位
+ * @param val 值
+ * @returns 补 px 单位的 string
+ */
+export const getPx = (val: number | string | undefined) => {
+  if (!val) return "";
+  if (isString(val)) {
+    if (val.endsWith("%")) return val;
+    if (isNumber(val)) return `${val}px`;
+    return val;
+  }
+  return `${val}px`;
+};

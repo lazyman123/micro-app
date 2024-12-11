@@ -1,14 +1,16 @@
+import i18n from "@/languages/index";
+const { t } = i18n.global;
 /**
  * 投放状态枚举
  */
 export const GoodsEnum = [
   {
-    genderLabel: "已投放",
-    genderValue: 1,
+    genderLabel: t("AdConfig.Delivered"),
+    genderValue: true,
   },
   {
-    genderLabel: "未投放",
-    genderValue: 2,
+    genderLabel: t("AdConfig.NotDelivery"),
+    genderValue: false,
   },
 ];
 
@@ -22,6 +24,20 @@ export const ShopEnum = [
   },
   {
     label: "felix",
+    value: 2,
+  },
+];
+
+/**
+ * 所属店铺枚举
+ */
+export const SkuEnum = [
+  {
+    label: "12342342343423",
+    value: 1,
+  },
+  {
+    label: "23423434523455",
     value: 2,
   },
 ];

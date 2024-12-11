@@ -6,10 +6,10 @@
       :rules="rules"
       label-width="140px"
     >
-      <el-form-item label="任务名称" prop="name">
+      <el-form-item :label="t('AdConfig.TaskName')" prop="name">
         <el-input v-model="ruleForm.name" class="config-input" />
       </el-form-item>
-      <el-form-item label="广告创建类型" prop="resource">
+      <el-form-item :label="t('AdConfig.CreateType')" prop="resource">
         <el-radio-group v-model="ruleForm.resource">
           <el-radio
             v-for="item in AdvertisingCreateEnum"
@@ -19,13 +19,13 @@
           />
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="广告账户">
+      <el-form-item :label="t('AdConfig.AdAccount')">
         <el-select v-model="ruleForm.zhanghu" class="config-input">
           <el-option label="广告账户1" value="shanghai" />
           <el-option label="广告账户2" value="beijing" />
         </el-select>
       </el-form-item>
-      <el-form-item label="执行策略">
+      <el-form-item :label="t('AdConfig.ExecutionStrategy')">
         <el-radio-group v-model="ruleForm.strategy">
           <el-radio
             v-for="item in StrategyEnum"
@@ -46,17 +46,18 @@ import {
   AdvertisingCreateEnum,
   StrategyEnum,
 } from "@/enums/AdvertisingConfigEnum";
-
-import { ElMessage } from "element-plus";
+import { convertTime } from "@/utils";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n(); 
 
 const router = useRouter();
 
 const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive({
-  name: "",
-  zhanghu: "",
-  resource: "",
-  strategy: "",
+  name: `promotion_task_${convertTime(new Date(), 'YYYYMMDD')}`,
+  zhanghu: "YN-009",
+  resource: 1,
+  strategy: 1,
 });
 
 const rules = reactive<FormRules>({});
@@ -64,14 +65,6 @@ const rules = reactive<FormRules>({});
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   router.push("/system/manager/advertisementConfig");
-
-  // await formEl.validate((valid, fields) => {
-  //   if (valid) {
-  //     ElMessage.success("提交的数据为 : " + JSON.stringify(ruleForm));
-  //   } else {
-  //     console.log("error submit!", fields);
-  //   }
-  // });
 };
 
 const cancel = () => {

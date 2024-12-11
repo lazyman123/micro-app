@@ -46,7 +46,7 @@ watchEffect(() => {
   bottom: 0;
   left: 0;
   z-index: 999;
-  width: $sidebar-width;
+  width: var(--aside-width);
   background-color: $menu-background;
   transition: width 0.28s;
 
@@ -58,7 +58,7 @@ watchEffect(() => {
 .main-container {
   position: relative;
   height: 100%;
-  margin-left: $sidebar-width;
+  margin-left: var(--aside-width);
   overflow-y: auto;
   transition: margin-left 0.28s;
 
@@ -130,7 +130,7 @@ watchEffect(() => {
 
     .mix-container-sidebar {
       position: relative;
-      width: $sidebar-width;
+      width: var(--aside-width);
       height: 100%;
       background-color: var(--menu-background);
 

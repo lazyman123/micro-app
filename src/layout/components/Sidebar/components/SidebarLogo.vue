@@ -3,7 +3,7 @@
     <transition enter-active-class="animate__animated animate__fadeInLeft">
       <router-link :key="+collapse" class="wh-full flex-center" to="/">
         <img :src="logo" class="logo-image" />
-        <span v-if="!collapse" class="logo-title"> 运营管理平台 </span>
+        <span v-if="!collapse" class="logo-title"> {{ t("Settings.ProjectName") }} </span>
       </router-link>
     </transition>
   </div>
@@ -11,6 +11,8 @@
 
 <script lang="ts" setup>
 import logo from "@/assets/logo.png";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 defineProps({
   collapse: {
@@ -46,7 +48,7 @@ defineProps({
 .layout-top,
 .layout-mix {
   .logo-container {
-    width: $sidebar-width;
+    width: var(--aside-width);
   }
 
   &.hideSidebar {

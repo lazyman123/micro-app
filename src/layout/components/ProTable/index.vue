@@ -102,18 +102,28 @@
         <div class="table-empty">
           <slot name="empty">
             <img src="@/assets/images/notData.png" alt="notData" />
-            <div>暂无数据</div>
+            <div>{{ t("Common.NoData") }}</div>
           </slot>
         </div>
       </template>
     </el-table>
     <!-- 分页组件 -->
-    <slot name="pagination">
+    <slot name="pagination" v-if="props.type === 'default'">
       <Pagination
         v-if="pagination"
         :pageable="pageable"
         :handle-size-change="handleSizeChange"
         :handle-current-change="handleCurrentChange"
+      />
+    </slot>
+    <slot name="pagination" v-else>
+      <Pagination
+        v-if="pagination"
+        :pageable="pageable"
+        :handle-size-change="handleSizeChange"
+        :handle-current-change="handleCurrentChange"
+        :handle-prev-click="handlePrevClick"
+        :handle-next-click="handleNextClick"
       />
     </slot>
   </div>
@@ -135,8 +145,10 @@ import ColSetting from "./components/ColSetting.vue";
 import TableColumn from "./components/TableColumn.vue";
 import Sortable from "sortablejs";
 import { useTable } from "@/hooks/useTable";
+import { useI18n } from "vue-i18n";
 
 export interface ProTableProps {
+  type?: "cursor" | "default";
   columns: ColumnProps[]; // 列配置项  ==> 必传
   data?: any[]; // 静态 table data 数据，若存在则不会使用 requestApi 返回的 data ==> 非必传
   requestApi?: (params: any) => Promise<any>; // 请求表格数据的 api ==> 非必传
@@ -166,6 +178,8 @@ const props = withDefaults(defineProps<ProTableProps>(), {
 
 // table 实例
 const tableRef = ref<InstanceType<typeof ElTable>>();
+
+const { t } = useI18n();
 
 // 生成组件唯一id
 const uuid = ref("id-" + generateUUID());
@@ -207,12 +221,15 @@ const {
   reset,
   handleSizeChange,
   handleCurrentChange,
+  handlePrevClick,
+  handleNextClick,
 } = useTable(
   props.requestApi,
   props.initParam,
   props.pagination,
   props.dataCallback,
-  props.requestError
+  props.requestError,
+  props.type,
 );
 
 // 清空选中数据列表
@@ -230,8 +247,8 @@ const processTableData = computed(() => {
   if (!props.data) return tableData.value;
   if (!props.pagination) return props.data;
   return props.data.slice(
-    (pageable.value.pageNum - 1) * pageable.value.pageSize,
-    pageable.value.pageSize * pageable.value.pageNum
+    (pageable.value.pageNumber - 1) * pageable.value.pageSize,
+    pageable.value.pageSize * pageable.value.pageNumber
   );
 });
 
@@ -264,8 +281,8 @@ const setEnumMap = async ({ prop, enum: enumValue }: ColumnProps) => {
   enumMap.value.set(prop!, []);
 
   // 当前 enum 为后台数据需要请求数据，则调用该请求接口，并存储到 enumMap
-  const { data } = await enumValue();
-  enumMap.value.set(prop!, data);
+  // const { data } = await enumValue();
+  enumMap.value.set(prop!, await enumValue());
 };
 
 // 注入 enumMap

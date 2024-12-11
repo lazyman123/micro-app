@@ -9,7 +9,9 @@ import { ResultEnum } from "@/enums/ResultEnum";
 import { getToken } from "@/utils/auth";
 import { AxiosCanceler } from "./axiosCancel";
 import qs from "qs";
+import { useAppStore } from "@/store";
 
+const appStore = useAppStore();
 const axiosCanceler = new AxiosCanceler();
 
 // 创建 axios 实例
@@ -58,13 +60,16 @@ service.interceptors.response.use(
       return response;
     }
 
-    const { code, data, msg } = response.data;
-    if (code === ResultEnum.SUCCESS) {
-      return data;
-    }
+    const { data } = response;
+    console.log(data, "data");
 
-    ElMessage.error(msg || "系统出错");
-    return Promise.reject(new Error(msg || "Error"));
+    // if (code === ResultEnum.SUCCESS) {
+      return data;
+    // }
+
+
+    // ElMessage.error(msg || "系统出错");
+    // return Promise.reject(new Error(msg || "Error"));
   },
   (error: any) => {
     // 异常处理
@@ -82,7 +87,7 @@ service.interceptors.response.use(
             location.reload();
           });
       } else {
-        ElMessage.error(msg || "系统出错");
+        ElMessage.error(msg || appStore.language === "zh-cn" ? "系统异常" : "System abnormality");
       }
     }
     return Promise.reject(error.message);

@@ -1,25 +1,20 @@
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
-  $colors: (
-    "primary": (
-      "base": #4080ff,
+@forward "element-plus/theme-chalk/src/common/var.scss" with ( // 命名空间
+
+  // 自定义 EP 样式命名空间
+  $colors: ("primary": ("base": #4080ff,
     ),
-    "success": (
-      "base": #23c343,
+    "success": ("base": #23c343,
     ),
-    "warning": (
-      "base": #ff9a2e,
+    "warning": ("base": #ff9a2e,
     ),
-    "danger": (
-      "base": #f76560,
+    "danger": ("base": #f76560,
     ),
-    "info": (
-      "base": #a9aeb8,
+    "info": ("base": #a9aeb8,
     ),
   ),
 
-  $bg-color: (
-    "page": #f5f8fd,
-  )
+  $bg-color: ("page": #f5f8fd,
+  ),
 );
 
 /** 全局SCSS变量 */
@@ -34,6 +29,7 @@
   --tag-background-color-light: rgb(57, 90, 227);
   --tag-border-color-light: #e4e7ed;
   --tag-close-icon-light: #b4bccc;
+
   // 修复表格 fixed 列被选中后由于透明色导致叠字的 bug
   .el-table {
     --el-table-current-row-bg-color: rgb(235 243 250);
@@ -59,3 +55,7 @@ $sidebar-width: 210px; // 侧边栏宽度
 $sidebar-width-collapsed: 54px; // 侧边栏收缩宽度
 $navbar-height: 50px; // 导航栏高度
 $tags-view-height: 34px; // TagsView 高度
+$admin-namespace: z;
+// el 命名空间
+$el-namespace: zad;
+$namespace: #{$el-namespace};

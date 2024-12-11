@@ -19,7 +19,7 @@ export function setupPermission() {
     if (isLogin) {
       if (to.path === "/login") {
         // 已登录，访问登录页，跳转到首页
-        next({ path: "/" });
+        next({ name: "HomePage" });
       } else {
         const permissionStore = usePermissionStore();
         // 判断路由是否加载过
@@ -41,9 +41,10 @@ export function setupPermission() {
             // 生成动态路由
             const dynamicRoutes = await permissionStore.generateRoutes();
             dynamicRoutes.forEach((route: RouteRecordRaw) =>
-              router.addRoute(route),
+              router.addRoute(route)
             );
             next({ ...to, replace: true }); // 添加动态路由后重新导航
+            // next({ name: "HomePage" });
           } catch (error) {
             console.error(error);
             // 路由加载失败，重置 token 并重定向到登录页
@@ -74,7 +75,7 @@ export function setupPermission() {
 /** 重定向到登录页 */
 function redirectToLogin(
   to: RouteLocationNormalized,
-  next: NavigationGuardNext,
+  next: NavigationGuardNext
 ) {
   const params = new URLSearchParams(to.query as Record<string, string>);
   const queryString = params.toString();

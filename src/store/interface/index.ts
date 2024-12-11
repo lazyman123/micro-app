@@ -4,6 +4,8 @@ export type AssemblySizeType = "large" | "default" | "small";
 
 export type LanguageType = "zh" | "en" | null;
 
+export type LayoutSizeType = "default" | "small" | "large";
+
 /* GlobalState */
 export interface GlobalState {
   layout: LayoutType;
@@ -27,6 +29,7 @@ export interface GlobalState {
   footer: boolean; // 是否显示页脚
   tabsNavCacheKey: string; // 缓存标签页的 key
   cacheDynamicRoutesKey: string; // 缓存动态路由的 key
+  layoutSize: LayoutSizeType;
 }
 
 /* UserState */

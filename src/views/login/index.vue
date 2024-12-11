@@ -8,7 +8,7 @@
       <div class="login-content">
         <div class="login-form">
           <el-form ref="loginFormRef" :model="loginData" :rules="loginRules">
-            <div class="form-title">卓达国际运营管理平台</div>
+            <div class="form-title">{{ t("Login.Title") }}</div>
 
             <!-- 用户名 -->
             <el-form-item prop="username">
@@ -19,7 +19,7 @@
                 <el-input
                   ref="username"
                   v-model="loginData.username"
-                  placeholder="用户名"
+                  :placeholder="t('Login.Username')"
                   name="username"
                   size="large"
                   class="h-[48px]"
@@ -40,7 +40,7 @@
                   </el-icon>
                   <el-input
                     v-model="loginData.password"
-                    placeholder="请输入密码"
+                    :placeholder="t('Login.Message.Password.Required')"
                     type="password"
                     name="password"
                     size="large"
@@ -77,6 +77,21 @@
               <!-- <el-checkbox> 记住我 </el-checkbox> -->
               <!-- <el-link type="primary" href="/forget-password"> 忘记密码 </el-link> -->
             </div>
+            <div class="agreement">
+              <el-checkbox
+                class="agreement-checkbox"
+                v-model="loginData.isAgree"
+                @change="handleAgreementChange"
+              >
+                {{ t("Login.Accept") + '&nbsp;' }}
+              </el-checkbox>
+              <a
+                href="http://business.zhuoda.work/pravicy.html"
+                target="_blank"
+              >
+                {{ t("Login.Privacy") }}
+              </a>
+            </div>
 
             <!-- 登录按钮 -->
             <el-button
@@ -86,7 +101,7 @@
               class="w-full"
               @click.prevent="handleLoginSubmit"
             >
-              登录
+              {{ t("Login.Login") }}
             </el-button>
           </el-form>
         </div>
@@ -111,7 +126,7 @@
 
 <script setup lang="ts">
 import { LocationQuery, useRoute } from "vue-router";
-
+import { useI18n } from "vue-i18n";
 import AuthAPI, { type LoginData } from "@/api/auth";
 import router from "@/router";
 
@@ -119,6 +134,7 @@ import type { FormInstance } from "element-plus";
 
 import { useUserStore } from "@/store";
 const userStore = useUserStore();
+const { t } = useI18n();
 
 const route = useRoute();
 const loginFormRef = ref<FormInstance>();
@@ -134,6 +150,7 @@ const loginImage = ref(
 const loginData = ref<LoginData>({
   username: "admin",
   password: "123456",
+  isAgree: false,
   captchaKey: "",
   captchaCode: "",
 });
@@ -144,14 +161,14 @@ const loginRules = computed(() => {
       {
         required: true,
         trigger: "blur",
-        message: "请输入用户名",
+        message: t("Login.Message.Username.Required"),
       },
     ],
     password: [
       {
         required: true,
         trigger: "blur",
-        message: "请输入密码",
+        message: t("Login.Message.Password.Required"),
       },
       {
         min: 6,
@@ -169,6 +186,10 @@ const loginRules = computed(() => {
   };
 });
 
+const handleAgreementChange = (val) => {
+  loginData.value.isAgree = val;
+};
+
 /** 获取验证码 */
 function getCaptcha() {
   AuthAPI.getCaptcha().then((data) => {
@@ -181,6 +202,10 @@ function getCaptcha() {
 async function handleLoginSubmit() {
   // 跳转到登录前的页面
   loginFormRef.value?.validate((valid: boolean) => {
+    if (loginData.value.isAgree == false) {
+      ElMessage.error(t("Login.BeforePrivacy"));
+      return;
+    }
     if (valid) {
       loading.value = true;
       userStore
@@ -358,6 +383,26 @@ onMounted(() => {
           cursor: pointer;
           border-top-right-radius: 6px;
           border-bottom-right-radius: 6px;
+        }
+
+        .agreement {
+          display: flex;
+          align-items: center;
+          justify-content: left;
+          margin-top: -10px;
+          margin-bottom: 10px;
+          .el-form-item {
+            border: none;
+          }
+          :deep(.agreement-checkbox) {
+            .el-checkbox__label {
+              font-size: 12px;
+            }
+          }
+          a {
+            color: var(--el-color-primary);
+            font-size: 12px;
+          }
         }
 
         .third-party-login {

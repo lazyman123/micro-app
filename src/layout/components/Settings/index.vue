@@ -1,8 +1,8 @@
 <template>
-  <el-drawer v-model="settingsVisible" size="300" title="项目配置">
+  <el-drawer v-model="settingsVisible" size="300" :title="t('Settings.Project')">
     <el-divider
       ><el-icon class="mr-1 config-icon"><ColdDrink /></el-icon
-      >主题设置</el-divider
+      >{{ t("Settings.Theme") }}</el-divider
     >
 
     <div class="flex-center">
@@ -16,27 +16,31 @@
 
     <el-divider
       ><el-icon class="mr-1 config-icon"><Setting /></el-icon
-      >界面设置</el-divider
+      >{{ t("Settings.Interface") }}</el-divider
     >
 
     <div class="setting-item">
-      <span class="text-sm">主题颜色</span>
+      <span class="text-sm">{{ t("Settings.ThemeColor") }}</span>
       <ThemeColorPicker
         v-model="settingsStore.themeColor"
         @update:model-value="changeThemeColor"
       />
     </div>
     <div class="setting-item">
-      <span class="text-sm">显示标签栏</span>
-      <el-switch v-model="settingsStore.tabs" />
-    </div>
-    <div class="setting-item">
-      <span class="text-sm">显示面包屑</span>
+      <span class="text-sm">{{ t("Settings.ShowBradcrumb") }}</span>
       <el-switch v-model="settingsStore.breadcrumbVisible" />
     </div>
     <div class="setting-item">
-      <span class="text-sm">持久化标签页</span>
+      <span class="text-sm">{{ t("Settings.ShowTabsView") }}</span>
+      <el-switch v-model="settingsStore.tabs" />
+    </div>
+    <div class="setting-item">
+      <span class="text-sm">{{ t("Settings.PersistTabs") }}</span>
       <el-switch v-model="settingsStore.storeTabs" />
+    </div>
+    <div>
+      <span style="font-size: 14px">{{ $t("Settings.menuWidth") }}</span>
+      <el-slider v-model="settingsStore.menuWidth" :min="100" :max="400" />
     </div>
   </el-drawer>
 </template>
@@ -44,6 +48,10 @@
 <script setup lang="ts">
 import { useSettingsStore } from "@/store";
 import { ThemeEnum } from "@/enums/ThemeEnum";
+import { useI18n } from "vue-i18n";
+import { getPx, setStyleVar } from "@/utils/theme";
+
+const { t } = useI18n();
 
 const settingsStore = useSettingsStore();
 
@@ -67,6 +75,9 @@ const changeTheme = (val: any) => {
   isDark.value = val;
   settingsStore.changeTheme(isDark.value ? ThemeEnum.DARK : ThemeEnum.LIGHT);
 };
+
+watchEffect(() => setStyleVar("--aside-width", getPx(settingsStore.menuWidth)));
+
 </script>
 
 <style lang="scss" scoped>

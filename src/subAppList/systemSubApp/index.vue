@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-const serverUrl = 'http://127.0.0.1:3003/'
+const serverUrl = 'http://127.0.0.1:3000/'
 
 </script>
 

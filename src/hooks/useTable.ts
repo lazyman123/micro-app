@@ -13,7 +13,8 @@ export const useTable = (
   initParam: object = {},
   isPageable: boolean = true,
   dataCallBack?: (data: any) => any,
-  requestError?: (error: any) => void
+  requestError?: (error: any) => void,
+  type?: string
 ) => {
   const state = reactive<Table.StateProps>({
     // 表格数据
@@ -21,11 +22,16 @@ export const useTable = (
     // 分页数据
     pageable: {
       // 当前页数
-      pageNum: 1,
+      pageNumber: 1,
       // 每页显示条数
       pageSize: 10,
       // 总条数
       total: 0,
+      start: "",
+      end: "",
+      hasNext: false,
+      hasPrevious: false,
+      tableType: type || "cursor",
     },
     // 查询参数(只包括查询)
     searchParam: {},
@@ -41,7 +47,7 @@ export const useTable = (
   const pageParam = computed({
     get: () => {
       return {
-        pageNum: state.pageable.pageNum,
+        pageNumber: state.pageable.pageNumber,
         pageSize: state.pageable.pageSize,
       };
     },
@@ -54,7 +60,7 @@ export const useTable = (
    * @description 获取表格数据
    * @return void
    * */
-  const getTableList = async () => {
+  const getTableList = async (params: any) => {
     if (!api) return;
     try {
       // 先把初始化参数和分页参数放到总参数里面
@@ -63,16 +69,29 @@ export const useTable = (
         initParam,
         isPageable ? pageParam.value : {}
       );
-      let { data } = await api({
+      let data = await api({
         ...state.searchInitParam,
         ...state.totalParam,
       });
+
       dataCallBack && (data = dataCallBack(data));
-      state.tableData = isPageable ? data.list : data;
-      // 解构后台返回的分页数据 (如果有分页更新分页信息)
-      if (isPageable) {
-        state.pageable.total = data.total;
+      if (state.pageable.tableType === "cursor") {
+        if (data.count !== null) {
+          localStorage.setItem("total", JSON.stringify(data.count));
+        }
+        state.tableData = data.data.data;
+        state.pageable.start = data.start;
+        state.pageable.end = data.end;
+        state.pageable.total =
+          Number(localStorage.getItem("total")) || data.count;
+      } else {
+        state.tableData = data.data;
+        state.pageable.total = data.totalElements;
       }
+      // 解构后台返回的分页数据 (如果有分页更新分页信息)
+      // if (isPageable) {
+      //   state.pageable.total = data.length;
+      // }
     } catch (error) {
       requestError && requestError(error);
     }
@@ -105,9 +124,9 @@ export const useTable = (
    * @return void
    * */
   const search = () => {
-    state.pageable.pageNum = 1;
+    state.pageable.pageNumber = 1;
     updatedTotalParam();
-    getTableList();
+    getTableList(state.searchParam);
   };
 
   /**
@@ -115,11 +134,11 @@ export const useTable = (
    * @return void
    * */
   const reset = () => {
-    state.pageable.pageNum = 1;
+    state.pageable.pageNumber = 1;
     // 重置搜索表单的时，如果有默认搜索参数，则重置默认的搜索参数
     state.searchParam = { ...state.searchInitParam };
     updatedTotalParam();
-    getTableList();
+    getTableList(state.searchParam);
   };
 
   /**
@@ -128,9 +147,9 @@ export const useTable = (
    * @return void
    * */
   const handleSizeChange = (val: number) => {
-    state.pageable.pageNum = 1;
+    state.pageable.pageNumber = 1;
     state.pageable.pageSize = val;
-    getTableList();
+    getTableList(state.searchParam);
   };
 
   /**
@@ -139,8 +158,40 @@ export const useTable = (
    * @return void
    * */
   const handleCurrentChange = (val: number) => {
-    state.pageable.pageNum = val;
-    getTableList();
+    state.pageable.pageNumber = val;
+    // getTableList(state.searchParam);
+  };
+
+  /**
+   * @description 上一页
+   * @param {Number} val 当前页
+   * @return void
+   * */
+  const handlePrevClick = (val: number) => {
+    handleCurrentChange(val);
+    state.pageable.pageNumber = val - 1;
+    state.totalParam.cursor = state.pageable.start;
+    state.totalParam.backward = true;
+  };
+
+  watch(
+    () => state.pageable.pageNumber,
+    () => {
+      // updatedTotalParam();
+      getTableList(state.searchParam);
+    }
+  );
+
+  /**
+   * @description 下一页
+   * @param {Number} val 当前页
+   * @return void
+   * */
+  const handleNextClick = (val: number) => {
+    handleCurrentChange(val);
+    state.pageable.pageNumber = val + 1;
+    state.totalParam.cursor = state.pageable.end;
+    state.totalParam.backward = false;
   };
 
   return {
@@ -151,5 +202,7 @@ export const useTable = (
     handleSizeChange,
     handleCurrentChange,
     updatedTotalParam,
+    handleNextClick,
+    handlePrevClick,
   };
 };

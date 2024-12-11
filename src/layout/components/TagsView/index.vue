@@ -14,7 +14,7 @@
         @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
         @contextmenu.prevent="openContentMenu(tag, $event)"
       >
-        {{ tag.title }}
+        {{ t(`Route.${tag.title}`) }}
         <el-icon
           v-if="!isAffix(tag)"
           class="tag-close-icon"
@@ -32,28 +32,28 @@
       :style="{ left: left + 'px', top: top + 'px' }"
     >
       <li @click="refreshSelectedTag(selectedTag)">
-        <svg-icon icon-class="refresh" />
-        刷新
+        <el-icon><Refresh /></el-icon>
+        刷新当前标签页
       </li>
       <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
-        <svg-icon icon-class="close" />
-        关闭
+        <el-icon><Close /></el-icon>
+        关闭当前标签页
       </li>
-      <li @click="closeOtherTags">
-        <svg-icon icon-class="close_other" />
-        关闭其它
+      <li v-if="!isFirstView() && !isLastView()" @click="closeOtherTags">
+        <el-icon><SemiSelect /></el-icon>
+        关闭其它标签页
       </li>
       <li v-if="!isFirstView()" @click="closeLeftTags">
-        <svg-icon icon-class="close_left" />
-        关闭左侧
+        <el-icon><ArrowLeft /></el-icon>
+        关闭左侧标签页
       </li>
       <li v-if="!isLastView()" @click="closeRightTags">
-        <svg-icon icon-class="close_right" />
-        关闭右侧
+        <el-icon><ArrowRight /></el-icon>
+        关闭右侧标签页
       </li>
       <li @click="closeAllTags(selectedTag)">
-        <svg-icon icon-class="close_all" />
-        关闭所有
+        <el-icon><FolderDelete /></el-icon>
+        关闭所有标签页
       </li>
     </ul>
   </div>
@@ -65,13 +65,15 @@ import { resolve } from "path-browserify";
 
 import { useTagsViewStore } from "@/store";
 import { constantRoutes } from "@/router";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const { proxy } = getCurrentInstance()!;
 const router = useRouter();
 const route = useRoute();
 
 const tagsViewStore = useTagsViewStore();
-
 const { visitedViews } = storeToRefs(tagsViewStore);
 
 const selectedTag = ref<TagView>({
@@ -95,7 +97,7 @@ watch(
   },
   {
     immediate: true, //初始化立即执行
-  },
+  }
 );
 
 const contentMenuVisible = ref(false); // 右键菜单是否显示
@@ -190,9 +192,10 @@ function isFirstView() {
   try {
     return (
       selectedTag.value.path === "/dashboard" ||
-      selectedTag.value.fullPath === tagsViewStore.visitedViews[1].fullPath
+      selectedTag.value.fullPath === visitedViews.value[0].fullPath
     );
   } catch (err) {
+    console.log("error");
     return false;
   }
 }
@@ -201,7 +204,7 @@ function isLastView() {
   try {
     return (
       selectedTag.value.fullPath ===
-      tagsViewStore.visitedViews[tagsViewStore.visitedViews.length - 1].fullPath
+      tagsViewStore.visitedViews[visitedViews.value.length - 1].fullPath
     );
   } catch (err) {
     return false;
@@ -399,7 +402,7 @@ onMounted(() => {
   box-shadow: var(--el-box-shadow-light);
 
   li {
-    padding: 8px 16px;
+    padding: 0 16px;
     cursor: pointer;
 
     &:hover {

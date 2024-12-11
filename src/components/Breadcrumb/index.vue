@@ -10,11 +10,11 @@
           "
           class="color-gray-400"
         >
-          {{ item.meta.title }}
+          {{ t(`Navbar.${item.meta.title}`) }}
         </span>
 
         <a v-else @click.prevent="handleLink(item)">
-          {{ item.meta.title }}
+          {{ t(`Navbar.${item.meta.title}`) }}
         </a>
       </el-breadcrumb-item>
     </transition-group>
@@ -25,7 +25,9 @@
 import { RouteLocationMatched } from "vue-router";
 import { compile } from "path-to-regexp";
 import router from "@/router";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const currentRoute = useRoute();
 const pathCompile = (path: string) => {
   const { params } = currentRoute;

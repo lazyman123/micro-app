@@ -118,7 +118,7 @@ export function generateUUID() {
  */
 export function isObjectValueEqual(
   a: { [key: string]: any },
-  b: { [key: string]: any }
+  b: { [key: string]: any },
 ) {
   if (!a || !b) return false;
   let aProps = Object.getOwnPropertyNames(a);
@@ -197,7 +197,7 @@ export function formatValue(callValue: any) {
  * */
 export function handleRowAccordingToProp(
   row: { [key: string]: any },
-  prop: string
+  prop: string,
 ) {
   if (!prop.includes(".")) return row[prop] ?? "--";
   prop.split(".").forEach((item) => (row = row[item] ?? "--"));
@@ -227,7 +227,7 @@ export function filterEnum(
   callValue: any,
   enumData?: any,
   fieldNames?: FieldNamesProps,
-  type?: "tag"
+  type?: "tag",
 ) {
   const value = fieldNames?.value ?? "value";
   const label = fieldNames?.label ?? "label";
@@ -251,7 +251,7 @@ export function findItemNested(
   enumData: any,
   callValue: any,
   value: string,
-  children: string
+  children: string,
 ) {
   return enumData.reduce((accumulator: any, current: any) => {
     if (accumulator) return accumulator;
@@ -261,17 +261,47 @@ export function findItemNested(
   }, null);
 }
 
-export const micros = [
-  {
-    name: "systemSubApp",
-    desc: "数据规则",
-    port: 3003,
-  },
-];
-export const getUrl = (appName: string, mciroList = micros) => {
-  const config = mciroList.find((item) => item.name === appName);
-  if (import.meta.env.MODE === "development") {
-    return `//localhost:${config?.port}/${config?.name}/`;
+/**
+ * @description 递归查找 callValue 对应的 enum 值
+ * */
+ export function filterTableEnum(
+  enumData: any,
+  callValue: any,
+  value: any,
+) {
+  const tableItem = enumData.find((current: any) => {
+    return current[value] === callValue
+  });
+  if (tableItem) {
+    return tableItem && tableItem.media?.nodes[0]?.image.url;
+  } else {
+    return enumData[0].media?.nodes[0]?.image.url
   }
-  return `/${config?.name}/`;
-};
+}
+
+/**
+ * @description 时间格式化
+ * */
+export function convertTime(timeStr, type = "default", timeZone?) {
+  const date = new Date(timeStr);
+  const year = date.getFullYear();
+  const month = padZero(date.getMonth() + 1);
+  const day = padZero(date.getDate());
+  const hour = padZero(date.getHours());
+  const minute = padZero(date.getMinutes());
+  const second = padZero(date.getSeconds());
+  if (type === "default") {
+    if (timeZone) {
+      return `${year}-${month}-${day}T${hour}:${minute}:${second}${timeZone}`;
+    }
+    return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  } else {
+    return `${year}${month}${day}${hour}${minute}`
+  }
+}
+
+function padZero(num) {
+  return (num < 10 ? '0' : '') + num;
+}
+
+export * from "./is";

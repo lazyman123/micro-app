@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 export namespace Table {
   export interface Pageable {
-    pageNum: number;
+    pageNumber: number;
     pageSize: number;
     total: number;
+    start: string;
+    end: string;
+    hasNext: boolean;
+    hasPrevious: boolean;
+    tableType?: string;
   }
   export interface StateProps {
     tableData: any[];

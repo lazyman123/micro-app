@@ -18,10 +18,10 @@
         </GridItem>
         <GridItem suffix>
           <div class="operation">
-            <el-button type="primary" :icon="Search" @click="search"> 搜索 </el-button>
-            <el-button :icon="Delete" @click="reset"> 重置 </el-button>
+            <el-button type="primary" :icon="Search" @click="search"> {{ t("Common.Search") }} </el-button>
+            <el-button :icon="Delete" @click="reset"> {{ t("Common.Reset") }} </el-button>
             <el-button v-if="showCollapse" type="primary" link class="search-isOpen" @click="collapsed = !collapsed">
-              {{ collapsed ? "展开" : "合并" }}
+              {{ collapsed ? t("Common.Expand") : t("Common.Merge") }}
               <el-icon class="el-icon--right">
                 <component :is="collapsed ? ArrowDown : ArrowUp"></component>
               </el-icon>
@@ -40,6 +40,7 @@ import { Delete, Search, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import SearchFormItem from "./components/SearchFormItem.vue";
 import Grid from "@/layout/components/Grid/index.vue";
 import GridItem from "@/layout/components/Grid/components/GridItem.vue";
+import { useI18n } from "vue-i18n";
 
 interface ProTableProps {
   columns?: ColumnProps[]; // 搜索配置列
@@ -54,6 +55,8 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   columns: () => [],
   searchParam: () => ({})
 });
+
+const { t } = useI18n();
 
 // 获取响应式设置
 const getResponsive = (item: ColumnProps) => {

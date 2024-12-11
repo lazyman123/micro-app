@@ -41,7 +41,7 @@ export const useGlobalStore = defineStore({
     // 标签页
     tabs: true,
     // 标签页持久化
-    storeTabs: true,
+    storeTabs: false,
     // 标签页图标
     tabsIcon: true,
     // 页脚

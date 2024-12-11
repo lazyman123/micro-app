@@ -49,4 +49,5 @@ export interface Meta {
   title?: string;
   /** 高亮菜单 */
   activeMenu?: string;
+  useI18n?: boolean; // 是否开启 i18n，默认读取全局的 routeUseI18n（src/config/settings.ts）
 }
